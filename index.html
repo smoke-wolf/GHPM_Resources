@@ -2,11 +2,48 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>CheckItOut</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Push Notification Example</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+    </style>
 </head>
 <body>
-    <div id="content"></div>
+    <h1>Push Notifications of Time</h1>
+    <p>Notifications will be sent every 1 minute.</p>
 
-    <script src="script.js"></script>
+    <script>
+        // Request permission for push notifications
+        Notification.requestPermission().then(function (permission) {
+            if (permission === 'granted') {
+                scheduleNotification();
+            }
+        });
+
+        // Function to send a notification with the current time
+        function sendNotification() {
+            const now = new Date();
+            const time = now.toLocaleTimeString();
+            const options = {
+                body: `Current time: ${time}`,
+                icon: 'icon.png' // You should have an icon image for the notification
+            };
+
+            const notification = new Notification('Time Notification', options);
+
+            notification.onclick = function () {
+                window.focus();
+                notification.close();
+            };
+        }
+
+        // Schedule notifications every 1 minute
+        function scheduleNotification() {
+            setInterval(sendNotification, 15000); // 60000 milliseconds = 1 minute
+        }
+    </script>
 </body>
 </html>
